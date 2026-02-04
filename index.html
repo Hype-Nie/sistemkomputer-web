@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Komputer - Modul Pembelajaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+        .container-app {
+            width: 100%;
+            max-width: 800px;
+            min-height: 90vh;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .content-area {
+            flex-grow: 1;
+            padding: 24px;
+        }
+        .navigation-footer {
+            border-top: 1px solid #e5e7eb;
+            background-color: #ffffff;
+        }
+        .option-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .content-side-by-side {
+            display: flex;
+            gap: 20px;
+            align-items:flex-start;
+            margin-bottom:20px;
+            flex-direction:column;
+        }
+        @media (min-widht:768px) {
+            .content-side-by-side {
+                flex-direction: row;
+            }
+        }
+        .content-side-by-side img {
+            flex-shrink: 0;
+            widht: 100%;
+            max-widht:250px;
+            height:auto;
+        }
+        @media (min-widht: 768px) {
+            .content-side-by-side img {
+                widht: 40%;
+
+            }
+        }
+        .content-side-by-side .text-are {
+            flex-grow:1;
+        }
+        .video-container {
+            widht: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 10px;
+            box-sizing: border-box;
+            
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-app">
+        <!-- Header -->
+        <header id="app-header" class="flex items-center justify-between p-4 bg-gray-800 text-white shadow-lg sticky top-0 z-10">
+            <button id="back-button" onclick="goBack()" class="p-2 rounded-full hover:bg-gray-700 transition duration-150 hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="flex flex-col items-start">
+                <h1 id="header-title" class="text-xl font-bold">Menu Utama</h1>
+                <p class="text-sm font-light text-gray-400">Modul Informatika</p>
+            </div>
+            <button id="home-button" onclick="navigateTo('main')" class="p-2 rounded-full hover:bg-gray-700 transition duration-150 hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </button>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="content-area" class="content-area"></main>
+
+        <!-- Navigation Footer (for Materi and Evaluasi) -->
+        <footer id="navigation-footer" class="navigation-footer p-4 flex justify-between items-center hidden">
+            <span id="slide-info" class="text-sm font-semibold text-gray-600"></span>
+            <div class="flex space-x-3">
+                <button id="prev-button" onclick="handleSlideNavigation(-1)" disabled class="p-3 bg-blue-100 text-blue-700 rounded-full disabled:opacity-50 transition duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <button id="next-button" onclick="handleSlideNavigation(1)" class="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-150 disabled:opacity-50 flex items-center space-x-1">
+                    <span id="next-button-text">Selanjutnya</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- DATA MODUL ---
+
+        // Daftar Sub-Materi untuk Menu Materi
+        const materiMenuOptions = [
+            { id: 0, title: "1. Pengertian Sistem Komputer" },
+            { id: 1, title: "2. Perangkat Keras (Hardware)" },
+            { id: 2, title: "3. Perangkat Lunak (Software)" },
+            { id: 3, title: "4. Interaksi Antar Perangkat" },
+            { id: 4, title: "5. Bilangan Biner" },
+            { id: 5, title: "6. Rangkuman Materi" }
+        ];
+
+        const instructionContent = `
+            <h3 class="text-2xl font-bold text-blue-700 mb-4">Petunjuk Penggunaan Aplikasi</h3>
+            <ol class="list-decimal list-inside space-y-3 text-gray-700 text-lg p-4 bg-blue-50 rounded-lg shadow-inner">
+                <li><span class="font-bold">Menu Utama:</span> Pilih "Modul Pembelajaran" untuk masuk ke Menu Belajar.</li>
+                <li><span class="font-bold">Menu Belajar:</span> Pilih 4 opsi: Petunjuk, Kompetensi Awal, Materi, atau Evaluasi.</li>
+                <li><span class="font-bold">Materi:</span> Anda akan melihat daftar sub-materi. Klik sub-materi, lalu gunakan tombol <span class="text-blue-600">Navigasi</span> (Prev/Next) untuk berpindah.</li>
+                <li><span class="font-bold">Evaluasi:</span> Jawab 5 soal pilihan ganda. Koreksi akan langsung muncul.</li>
+                <li><span class="font-bold">Kembali:</span> Gunakan tombol panah di header atau "Menu Belajar" untuk kembali.</li>
+            </ol>
+        `;
+
+        const competencyContent = `
+            <h3 class="text-2xl font-bold text-green-700 mb-4">Kompetensi Awal</h3>
+            <p class="mb-4 text-gray-700 text-lg">Setelah menyelesaikan modul ini, Anda diharapkan mampu:</p>
+            <ul class="list-disc list-inside space-y-3 text-gray-700 ml-6 text-lg p-4 bg-green-50 rounded-lg shadow-inner">
+                <li>Memahami definisi dan perbedaan antara perangkat keras (Hardware) dan perangkat lunak (Software).</li>
+                <li>Menjelaskan siklus kerja dasar sistem komputer (Input, Proses, Output).</li>
+                <li>Mengidentifikasi sistem bilangan yang digunakan komputer (Biner).</li>
+                <li>Menjelaskan peran utama Sistem Operasi.</li>
+            </ul>
+        `;
+
+        // Konten Materi telah diperluas dan disesuaikan dengan daftar menu baru
+        const materiContent = [
+            {
+                title: "1. Pengertian Sistem Komputer",
+                content: `
+                    <div class="content-side-by-side">
+                        <img src="gambar/sistem-komputer.jpeg" alt="Diagram Komponen Sistem Komputer:Hardware, Software, Braindware" class="rounded-lg shadow-xl border-4 border-gray-300"/>
+                        <p class="text-sm italic text-gray-500 mt-2">Diagram Tiga Komponen Utama Sistem Komputer</p>
+                        <div class="text-area">
+                    <p class="text-lg mb-4 text-gray-700">Komputer adalah kata dari bahasa inggris to compute yang artinya menghitung. Komputer memiliki makna sebuah peranti elektronik yang dapat menerima data masukan/perintah, memproses data masukan tersebut, memproduksi keluaran.</p>
+                    <div class="space-y-3 p-4 bg-blue-50 rounded-lg shadow-md">
+                        <li class="list-none"><span class="font-bold text-blue-700">Tujuan:</span> Menerima data lalu memproses menjadi peranti keluaran </li>
+                        <li class="list-none"><span class="font-bold text-green-700">Komponen Utama:</span>Sistem komputer membutuhkan perangkat keras (hardware) dan perangkat lunak (software) untuk berfungsi dan brandware sebagai pengguna.</li>
+                    </div>
+                    <div class="video-container">
+                        <video controls autoplay muted playsinline>
+                        <source src="video/sistemkomputer.mp4" type="video/mp4">
+                        <source src="video/sistemkomputer.webm" type="video/webm"
+                            maaf, browser tidak mendukung video.
+                        </video>
+                        <p class="text-sm italic text-gray-500 mt-2">interaksi sistem komputer</p>
+                   </div>
+                   </div>
+                `
+            },
+            {
+                title: "2. Perangkat Keras (Hardware)",
+                content: `
+                    <p class="text-lg mb-4 text-gray-700">Perangkat Keras adalah perangkat komputer yang memiliki wujud fisik yang nyata, dapat disentuh atau dipindahkan, .</p>
+                    <div class="space-y-3 p-4 bg-white rounded-lg shadow-md">
+                        <li class="list-none"><span class="font-bold text-red-600">Perangkat Masukan (Input Devices):</span> Mengirim data ke komputer untuk di olah seperti Mouse, Keyboard, Scanner, Joystick, Microphone, dan Barcode Reader.
+                            <img src="gambar/perangkat-inputan.jpg" alt="Perangkat Inputan" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
+                            <p class="text-sm italic text-gray-500 mt-2 text-center">Perangkat Keras Inputan</p>
+                            </li>
+                        <li class="list-none"><span class="font-bold text-blue-600">Pemroses (Processing Devices):</span> Data atau perintah yang diterima dari peranti masukan selanjutnya akan di proses oleh komputer seperti CPU, RAM, ROM.
+                            <img src="gambar/pemroses.jpg" alt="Pemroses" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
+                            <p class="text-sm italic text-gray-500 mt-2 text-center">Central Processing Unit dan RAM</p>
+                        </li>
+                        <li class="list-none"><span class="font-bold text-green-600">Keluaran (Output Devices):</span> Adalah peralatan yang menyajikan informasi dari komputer yang bisa berupa tampilan layar Monitor, Printer (Gambar/dokumen tercetak), serta suara yang di hasilkan Speaker.
+                            <img src="gambar/parangkat-output.jpg" alt="Perangkat Output" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
+                            <p class="text-sm italic text-gray-500 mt-2 text-center">Perangkat Keras Output</p>
+                        </li>
+                        <li class="list-none"><span class="font-bold text-yellow-600">Penyimpanan Sekunder:</span> Peranti penyimpanan sekunder adalah tempat penyimpanan data elektronik yang bersifat permanen, diantaranya: Hardisk drive, Solid State drive, Flash drive, Compact Disc, Memory Card, dan Cloud Storage.
+                            <img src="gambar/penyimpanansekunder.jpg" alt="Penyimpanan Sekunder" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
+                            <p class="text-sm italic text-gray-500 mt-2 text-center">Perangkat Penyimpanan Sekunder</p>
+                        </li>
+                    </div>
+                `
+            },
+            {
+                title: "3. Perangkat Lunak (Software)",
+                content: `
+                    <p class="text-lg mb-4 text-gray-700">Perangkat Lunak adalah kumpulan instruksi dan data yang dikerjakan oleh komputer. Perangkat lunak merupakan penghubung antara pengguna dan komputer sebagai perangkat keras.</p>
+                    <div class="space-y-3 p-4 bg-white rounded-lg shadow-md">
+                        <li class="list-none"><span class="font-bold text-blue-700">Sistem Operasi (OS):</span> Perangkat lunak utama yang mengelola sumber daya. Contoh: Windows, macOS. berfungsi manajemen proses, manajemen sumber daya, dan manajemen data.</li>
+                        <li class="list-none"><span class="font-bold text-green-700">Program Aplikasi:</span> Program yang dirancang dan siap pakai untuk melakukan pekerjaan penggunanya . Contoh: Browser, Microsoft Office (word, excel, powerpoint), Mobile Application (Sosial media dan Commerce Apps).</li>
+                        <li class="list-none"><span class="font-bold text-red-700">Bahasa Pemrograman:</span> Alat untuk membuat perangkat lunak seperti Pascal, C++, Java, Phyton, dan lainnya.</li>
+                    </div>
+                    <div class="mt-8 flex justify-center p-4 bg-white rounded-lg shadow-inner">
+                        <div class="text-center">
+                            <img src="gambar/perangkat-lunak.jpg" alt="Perangkat Lunak" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-300"/>
+                            <p class="text-sm italic text-gray-500 mt-2">Software (Perangkat Lunak)</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "4. Interaksi Antar Perangkat",
+                content: `
+                    <p class="text-lg mb-4 text-gray-700">Sistem komputer adalah hubungan kerja sama antara perangkat keras, perangkat lunak, dan pengguna (brainware) agar komputer dapat berfungsi dengan baik.</p>
+                    <ol class="list-decimal list-inside space-y-2 ml-4 p-4 bg-yellow-50 rounded-lg shadow-md">
+                        <li><span class="font-bold text-purple-700">Input:</span> Data masuk melalui Keyboard.</li>
+                        <li><span class="font-bold text-purple-700">Proses:</span> CPU memprosesnya, dan RAM menampung data sementara.</li>
+                        <li><span class="font-bold text-purple-700">Output:</span> Hasil ditampilkan di Monitor.</li>
+                    </ol>
+                    <p class=text-lg mb-4 text-black-600">Selain interaksi internal dalam satu unit komputer, ada pula interaksi antarperangkat eksternal. Contohnya, komputer dapat terhubung dengan smartphone  melalui  kabel  USB  atau  Bluetooth  untuk  transfer  data, menggunakan Wi-Fi untuk mengakses internet, atau terkoneksi dengan printer agar dapat mencetak dokumen.</p>
+                    <p class="mt-4 italic text-sm text-gray-600">Interaksi ini dimediasi oleh OS.</p>
+                `
+            },
+            {
+                title: "5. Bilangan Biner (Dasar Komputer)",
+                content: `
+                    <p class="text-lg mb-4 text-gray-700">Komputer bekerja menggunakan sistem bilangan biner, yang hanya mengenal dua keadaan: **0** dan **1**.</p>
+                    <div class="space-y-3 p-4 bg-white rounded-lg shadow-md">
+                        <li class="list-none"><span class="font-bold text-red-600">Bit:</span> Unit terkecil dari informasi (0 atau 1). </li>
+                        <li class="list-none"><span class="font-bold text-blue-600">Byte:</span> Kumpulan dari 8 bit (mewakili satu karakter).</li>
+                        <li class="list-none"><span class="font-bold text-green-600">Contoh:</span> Desimal 5 = Biner 101.</li>
+                    </div>
+                `
+            },
+            {
+                title: "6. Rangkuman Materi",
+                content: `
+                    <div class="text-center p-6 bg-blue-100 rounded-xl shadow-lg border-2 border-blue-300">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-4">Poin Kunci</h3>
+                        <div class="grid grid-cols-1 gap-4 text-base font-semibold">
+                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-yellow-500">Sistem Komputer: Interaksi Hardware, Software, dan Brainware.</div>
+                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-red-500">Hardware: Komponen Fisik (CPU, RAM, Monitor).</div>
+                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-green-500">Software: Program/Logika (OS, Aplikasi).</div>
+                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-purple-500">Biner: Bahasa Komputer Dasar (0 dan 1).</div>
+                        </div>
+                        <p class="text-xl mt-6 text-blue-800 font-bold">Modul Dasar Selesai. Silakan lanjut ke Evaluasi!</p>
+                    </div>
+                `
+            }
+        ];
+
+        const quizQuestions = [
+            {
+                question: "1. Komponen fisik dari sistem komputer yang dapat disentuh disebut...",
+                options: ["Software", "Firmware", "Hardware", "Operating System"],
+                answer: 2
+            },
+            {
+                question: "2. Fungsi utama dari CPU (Central Processing Unit) berada pada tahap...",
+                options: ["Input", "Process", "Output", "Storage"],
+                answer: 1
+            },
+            {
+                question: "3. Perangkat lunak yang bertindak sebagai jembatan antara hardware dan aplikasi adalah...",
+                options: ["Browser", "Driver", "Sistem Operasi", "Antivirus"],
+                answer: 2
+            },
+            {
+                question: "4. Sistem bilangan yang hanya menggunakan 0 dan 1 dalam pengoperasian komputer adalah...",
+                options: ["Desimal", "Biner", "Heksadesimal", "Oktal"],
+                answer: 1
+            },
+            {
+                question: "5. Data yang hilang ketika komputer dimatikan disimpan di memori jenis...",
+                options: ["ROM", "HDD", "SSD", "RAM"],
+                answer: 3
+            }
+        ];
+
+        const infoPageContent = `
+            <h3 class="text-2xl font-bold text-blue-700 mb-4">Informasi Aplikasi</h3>
+            <div class="p-6 bg-white rounded-2xl shadow-md space-y-6 border border-gray-100">
+            <p class="text-gray-600">Media Pembelajaran - Modul Informatika pada Materi Sistem Komputer</p>
+                <div class="flex flex-col items-center">
+            <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500 shadow-lg mb-4">
+                <img src="gambar/logoupk.png" alt="Logo Kampus" class="w-full h-full object-cover">
+            </div>
+            <p class="text-sm italic text-gray-500">Pengembang Aplikasi</p>
+            <div class="space-y-4">
+            <div class="p-4 bg-blue-50 rounded-xl">
+                <p class="font-bold text-center text-gray-600 mb-1">PUTRI LATIFAH</p>
+                <p class="font-bold text-center text-gray-600 mb-1">NPM : 3062146010</p>
+                <p class="text-black-400 font-medium text-center">UNIVERSITAS PGRI KALIMANTAN</p>
+                <p class="text-black-400 font-medium text-center">Fakultas Sains dan Teknologi</p>
+                <p class="text-black-400 font-medium text-center">Program Studi Pendidikan Teknologi Informasi</p>
+            </div>
+            </div>
+                <div class="p-3">
+                    <p class="font-bold text-xl text-black">Daftar Pustaka:</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 ml-6 text-base">
+                        <li>Buku Paket Informatika untuk Kelas VII SMP Kurikulum Merdeka.</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+
+        // --- STATE APLIKASI ---
+        let currentView = 'main';
+        let currentSlideIndex = 0;
+        let score = 0;
+        let answeredQuestions = {}; // {0: {selected: 2, correct: 2, isCorrect: true}, ...}
+        let history = []; // Untuk menyimpan riwayat navigasi
+
+        // --- ELEMEN DOM ---
+        const contentArea = document.getElementById('content-area');
+        const headerTitle = document.getElementById('header-title');
+        const backButton = document.getElementById('back-button');
+        const homeButton = document.getElementById('home-button');
+        const navFooter = document.getElementById('navigation-footer');
+        const slideInfo = document.getElementById('slide-info');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const nextButtonText = document.getElementById('next-button-text');
+
+        // --- LOGIKA NAVIGASI ---
+
+        function updateHeaderAndFooter(title, showBack = true, showHome = true, showNavFooter = false) {
+            headerTitle.textContent = title;
+            backButton.classList.toggle('hidden', !showBack);
+            homeButton.classList.toggle('hidden', !showHome);
+            navFooter.classList.toggle('hidden', !showNavFooter);
+        }
+
+        function navigateTo(view, index = 0) {
+            // Push current state to history before changing view, unless it's going back
+            if (view !== 'back') {
+                history.push({ view: currentView, index: currentSlideIndex });
+            }
+
+            currentView = view;
+            currentSlideIndex = index;
+            contentArea.innerHTML = '';
+            
+            if (view === 'evaluasi') {
+                score = 0;
+                answeredQuestions = {};
+            }
+
+            renderContent();
+        }
+
+        function goBack() {
+            if (history.length > 0) {
+                const prevState = history.pop();
+                currentView = prevState.view;
+                currentSlideIndex = prevState.index;
+                renderContent();
+            } else {
+                // Default fallback if history is empty (shouldn't happen if starting from 'main')
+                navigateTo('main');
+            }
+        }
+
+        function handleSlideNavigation(direction) {
+            const total = currentView === 'materi_slide' ? materiContent.length : quizQuestions.length;
+            const newIndex = currentSlideIndex + direction;
+
+            if (newIndex >= 0 && newIndex < total) {
+                currentSlideIndex = newIndex;
+                renderContent();
+            } else if (currentView === 'materi_slide' && newIndex === total) {
+                 // Di akhir materi, kembali ke menu materi
+                 navigateTo('materi_menu');
+            } else if (currentView === 'evaluasi' && newIndex === total) {
+                 // Jika soal terakhir sudah dijawab, langsung ke hasil
+                 if (Object.keys(answeredQuestions).length === quizQuestions.length) {
+                     navigateTo('result');
+                 }
+            }
+        }
+
+        // --- LOGIKA KUIS ---
+        
+        window.checkAnswer = (qIndex, selectedIndex) => {
+            if (answeredQuestions.hasOwnProperty(qIndex)) return;
+
+            const q = quizQuestions[qIndex];
+            const isCorrect = selectedIndex === q.answer;
+
+            const newAnswered = {
+                selected: selectedIndex,
+                correct: q.answer,
+                isCorrect: isCorrect
+            };
+
+            answeredQuestions[qIndex] = newAnswered;
+            if (isCorrect) {
+                score++;
+            }
+
+            // Render ulang untuk menampilkan feedback
+            renderQuizQuestion(qIndex);
+
+            // Jika ini soal terakhir, tampilkan hasil setelah delay
+            if (qIndex === quizQuestions.length - 1) {
+                setTimeout(() => {
+                    if (Object.keys(answeredQuestions).length === quizQuestions.length) {
+                         navigateTo('result');
+                    }
+                }, 1000);
+            }
+        };
+
+        function updateNavigationFooter() {
+            const isMateriSlide = currentView === 'materi_slide';
+            const isEvaluasi = currentView === 'evaluasi';
+            const isMateriOrEvaluasi = isMateriSlide || isEvaluasi;
+
+            if (!isMateriOrEvaluasi) {
+                navFooter.classList.add('hidden');
+                return;
+            }
+
+            navFooter.classList.remove('hidden');
+            const total = isMateriSlide ? materiContent.length : quizQuestions.length;
+            const isLastSlide = currentSlideIndex === total - 1;
+            const allAnswered = isEvaluasi && Object.keys(answeredQuestions).length === total;
+
+            slideInfo.textContent = `${isMateriSlide ? 'Materi' : 'Soal'} ${currentSlideIndex + 1} / ${total}`;
+            prevButton.disabled = currentSlideIndex === 0;
+
+            let nextDisabled = false;
+            let nextText = 'Selanjutnya';
+
+            if (isEvaluasi) {
+                nextDisabled = !answeredQuestions.hasOwnProperty(currentSlideIndex) && !isLastSlide;
+                if (isLastSlide) {
+                    nextText = allAnswered ? 'Lihat Hasil' : 'Selesaikan Soal';
+                    nextDisabled = !allAnswered; // Disable if not all answered on the last slide
+                }
+            } else if (isMateriSlide) {
+                if (isLastSlide) {
+                    nextText = 'Menu Materi';
+                }
+                nextDisabled = false; // Always allow navigating next in materi
+            }
+            
+            nextButton.disabled = nextDisabled;
+            nextButtonText.textContent = nextText;
+
+            // Update button color based on disabled state
+            nextButton.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'bg-blue-300');
+            if (nextDisabled) {
+                nextButton.classList.add('bg-blue-300');
+            } else {
+                nextButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }
+        }
+        
+        // --- KOMPONEN RENDER ---
+
+        function renderMainMenu() {
+            updateHeaderAndFooter('Menu Utama', false, false, false);
+            history = []; // Reset history when returning to main menu
+            contentArea.innerHTML = `
+                <div class="p-6 text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-800 mb-8">Sistem Komputer</h2>
+                    <div class="space-y-6">
+                        <button onclick="navigateTo('learning_menu')" class="option-button w-full flex items-center justify-center space-x-3 px-8 py-5 bg-blue-600 text-white text-xl font-semibold rounded-xl shadow-lg transition duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            <span>Modul Pembelajaran</span>
+                        </button>
+                        <button onclick="navigateTo('info')" class="option-button w-full flex items-center justify-center space-x-3 px-8 py-5 bg-gray-200 text-gray-700 text-xl font-semibold rounded-xl shadow-md transition duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                            <span>Informasi Aplikasi</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderLearningMenu() {
+            updateHeaderAndFooter('Menu Belajar', true, true, false);
+            contentArea.innerHTML = `
+                <div class="p-6 text-center">
+                    <h3 class="text-3xl font-bold text-green-800 mb-8">Pilih Menu Belajar</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <button onclick="navigateTo('instructions')" class="option-button bg-teal-500 text-white py-6 rounded-xl font-semibold text-lg transition duration-200 shadow-md flex flex-col items-center justify-center space-y-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .9-1.8 1.8-2.5.3-.2.6-.5.8-.8a2.5 2.5 0 0 0 0-3.4 2.5 2.5 0 0 0-3.4 0l-.8.8c-.7.9-1.5 1.6-2.5 1.8"/><path d="M12 21a2 2 0 0 0 2-2c0-1.5-.5-3-2-5c-1.5 2-2 3.5-2 5a2 2 0 0 0 2 2z"/></svg>
+                            <span>Petunjuk</span>
+                        </button>
+                        <button onclick="navigateTo('competency')" class="option-button bg-yellow-500 text-white py-6 rounded-xl font-semibold text-lg transition duration-200 shadow-md flex flex-col items-center justify-center space-y-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><path d="m15.477 12.894-3.153 1.765a2 2 0 0 1-1.928 0l-3.154-1.765a2 2 0 0 0-1 1.732v3.414a2 2 0 0 0 1 1.732l3.153 1.765a2 2 0 0 0 1.928 0l3.154-1.765a2 2 0 0 0 1-1.732v-3.414a2 2 0 0 0-1-1.732z"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span>Kompetensi Awal</span>
+                        </button>
+                        <button onclick="navigateTo('materi_menu')" class="option-button bg-blue-500 text-white py-6 rounded-xl font-semibold text-lg transition duration-200 shadow-md flex flex-col items-center justify-center space-y-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            <span>Materi</span>
+                        </button>
+                        <button onclick="navigateTo('evaluasi', 0)" class="option-button bg-red-500 text-white py-6 rounded-xl font-semibold text-lg transition duration-200 shadow-md flex flex-col items-center justify-center space-y-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            <span>Evaluasi</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMateriMenu() {
+            updateHeaderAndFooter('Daftar Sub-Materi', true, true, false);
+
+            const optionsHtml = materiMenuOptions.map(item => `
+                <button onclick="navigateTo('materi_slide', ${item.id})" class="option-button w-full flex items-center space-x-4 px-6 py-4 bg-white text-gray-800 text-xl font-semibold rounded-xl border-l-4 border-blue-500 shadow-md hover:bg-blue-50 transition duration-200">
+                    <span class="text-blue-600 font-bold">${item.id + 1}.</span>
+                    <span>${item.title.substring(item.title.indexOf(' ') + 1)}</span>
+                </button>
+            `).join('');
+
+            contentArea.innerHTML = `
+                <div class="p-6 text-center">
+                    <h3 class="text-3xl font-bold text-blue-800 mb-8">Pilih Sub-Materi</h3>
+                    <div class="space-y-4">
+                        ${optionsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+
+        function renderInstructionsAndCompetency() {
+            const isInstructions = currentView === 'instructions';
+            const title = isInstructions ? 'Petunjuk' : 'Kompetensi Awal';
+            const content = isInstructions ? instructionContent : competencyContent;
+
+            updateHeaderAndFooter(title, true, true, false);
+            contentArea.innerHTML = `<div class="text-left w-full">${content}</div>`;
+        }
+
+        function renderMateriSlide(index) {
+            const slide = materiContent[index];
+            updateHeaderAndFooter(slide.title, true, true, true);
+            contentArea.innerHTML = `
+                <div class="text-left w-full p-4 bg-gray-50 rounded-xl shadow-lg border-l-4 border-blue-500">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">${slide.title}</h2>
+                    ${slide.content}
+                </div>
+            `;
+            updateNavigationFooter();
+        }
+
+        function renderQuizQuestion(index) {
+            const q = quizQuestions[index];
+            const answerData = answeredQuestions[index];
+            const isAnswered = !!answerData;
+
+            updateHeaderAndFooter(`Evaluasi (${index + 1}/${quizQuestions.length})`, true, true, true);
+            
+            let optionsHtml = q.options.map((option, i) => {
+                const char = String.fromCharCode(65 + i);
+                let classes = 'option-button w-full p-4 text-left rounded-lg border-2 transition duration-150 text-lg ';
+                let disabled = isAnswered ? 'opacity-70 pointer-events-none' : 'cursor-pointer hover:bg-blue-50';
+                
+                // Menentukan gaya setelah dijawab
+                if (isAnswered) {
+                    if (i === answerData.correct) {
+                        classes += 'bg-green-100 border-green-500 font-bold';
+                    } else if (i === answerData.selected) {
+                        classes += 'bg-red-100 border-red-500';
+                    } else {
+                        classes += 'bg-gray-100 border-gray-300';
+                    }
+                } else {
+                    classes += 'bg-white border-gray-300 hover:bg-gray-100';
+                }
+
+                return `
+                    <button 
+                        class="${classes} ${isAnswered ? 'disabled' : ''}"
+                        onclick="${isAnswered ? '' : `checkAnswer(${index}, ${i})`}">
+                        ${char}. ${option}
+                    </button>
+                `;
+            }).join('');
+
+            let feedbackHtml = '';
+            if (isAnswered) {
+                const feedbackClass = answerData.isCorrect ? 'bg-green-50 text-green-700 border-green-300' : 'bg-red-50 text-red-700 border-red-300';
+                const feedbackText = answerData.isCorrect 
+                    ? 'Jawaban Anda Benar!' 
+                    : `Jawaban Salah. Jawaban yang benar adalah ${String.fromCharCode(65 + q.answer)}.`;
+                
+                feedbackHtml = `<div class="mt-6 p-4 rounded-lg border-2 ${feedbackClass} font-semibold text-center text-lg shadow-md">${feedbackText}</div>`;
+            }
+
+            contentArea.innerHTML = `
+                <div class="text-left w-full">
+                    <p class="text-2xl font-semibold text-gray-800 mb-6">${q.question}</p>
+                    <div class="space-y-4">
+                        ${optionsHtml}
+                    </div>
+                    ${feedbackHtml}
+                </div>
+            `;
+            updateNavigationFooter();
+        }
+
+        function renderQuizResult() {
+            updateHeaderAndFooter('Hasil Evaluasi', true, true, false);
+
+            const total = quizQuestions.length;
+            const percentage = (score / total) * 100;
+            const grade = percentage >= 80 ? 'Sangat Baik' : (percentage >= 60 ? 'Baik' : 'Perlu Belajar Lagi');
+
+            contentArea.innerHTML = `
+                <div class="p-8 text-center w-full bg-purple-100 rounded-xl shadow-2xl border-b-8 border-purple-600">
+                    <h3 class="text-4xl font-extrabold text-purple-800 mb-6">Hasil Evaluasi Anda</h3>
+                    <p class="text-8xl font-black text-blue-700 mb-6 p-4 bg-white rounded-xl shadow-inner">${score} / ${total}</p>
+                    <div class="p-4 bg-white rounded-lg shadow-md">
+                        <p class="font-bold text-xl text-black">Persentase: ${percentage.toFixed(0)}%</p>
+                        <p class="font-bold text-3xl mt-3 ${percentage >= 80 ? 'text-green-600' : 'text-red-600'}">${grade}</p>
+                    </div>
+                    <button onclick="navigateTo('evaluasi', 0)" class="mt-8 w-full px-8 py-4 bg-red-500 text-white font-bold text-lg rounded-xl hover:bg-red-600 transition duration-150 shadow-lg">
+                        Ulangi Evaluasi
+                    </button>
+                    <button onclick="navigateTo('learning_menu')" class="mt-4 w-full px-8 py-4 bg-gray-400 text-white font-bold text-lg rounded-xl hover:bg-gray-500 transition duration-150 shadow-lg">
+                        Kembali ke Menu Belajar
+                    </button>
+                </div>
+            `;
+        }
+        
+        function renderInfo() {
+            updateHeaderAndFooter('Informasi Aplikasi', true, true, false);
+            contentArea.innerHTML = `<div class="text-left w-full">${infoPageContent}</div>`;
+        }
+
+        function renderContent() {
+            // Logika Back Button
+            const showBackButton = history.length > 0;
+            const showHomeButton = currentView !== 'main';
+
+            switch (currentView) {
+                case 'main':
+                    renderMainMenu();
+                    break;
+                case 'learning_menu':
+                    renderLearningMenu();
+                    break;
+                case 'instructions':
+                case 'competency':
+                    renderInstructionsAndCompetency();
+                    break;
+                case 'info':
+                    renderInfo();
+                    break;
+                case 'materi_menu':
+                    renderMateriMenu();
+                    break;
+                case 'materi_slide':
+                    renderMateriSlide(currentSlideIndex);
+                    break;
+                case 'evaluasi':
+                    renderQuizQuestion(currentSlideIndex);
+                    break;
+                case 'result':
+                    renderQuizResult();
+                    break;
+                default:
+                    renderMainMenu();
+            }
+
+            // Update header and footer based on the final view state
+            const isMateriSlideOrEvaluasi = currentView === 'materi_slide' || currentView === 'evaluasi';
+            updateHeaderAndFooter(headerTitle.textContent, showBackButton, showHomeButton, isMateriSlideOrEvaluasi);
+            if (isMateriSlideOrEvaluasi) {
+                updateNavigationFooter();
+            }
+        }
+
+        // --- INISIALISASI ---
+        window.onload = () => {
+            renderContent();
+        };
+
+        window.navigateTo = navigateTo;
+        window.goBack = goBack;
+        window.handleSlideNavigation = handleSlideNavigation;
+    // ... (kode fungsi render lainnya seperti renderMateriSlide) ...
+
+        // GANTI ATAU MASUKKAN DI SINI:
+        function renderResult() {
+            // Sembunyikan footer navigasi agar fokus pada skor
+            document.getElementById('navigation-footer').classList.add('hidden');
+            
+            // 1. Perhitungan Nilai (Skor / Total Soal * 100)
+            const finalScore = Math.round((score / quizQuestions.length) * 100);
+            
+            // 2. Tentukan Predikat & Warna
+            let status = "";
+            let colorClass = "";
+            if (finalScore >= 80) {
+                status = "SANGAT BAIK";
+                colorClass = "text-green-600";
+            } else if (finalScore >= 60) {
+                status = "CUKUP BAIK";
+                colorClass = "text-yellow-600";
+            } else {
+                status = "PERLU BELAJAR LAGI";
+                colorClass = "text-red-600";
+            }
+
+            // 3. Tampilkan ke area konten
+            contentArea.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-10">
+                    <h2 class="text-2xl font-extrabold text-gray-700 mb-6">HASIL EVALUASI ANDA</h2>
+                    
+                    <div class="relative flex items-center justify-center mb-6">
+                        <svg class="w-48 h-48 transform -rotate-90">
+                            <circle cx="96" cy="96" r="80" stroke="currentColor" stroke-width="12" fill="transparent" class="text-gray-200" />
+                            <circle cx="96" cy="96" r="80" stroke="currentColor" stroke-width="12" fill="transparent" 
+                                stroke-dasharray="${(finalScore / 100) * 502}, 502" 
+                                stroke-linecap="round"
+                                class="${colorClass.replace('text', 'stroke')}" />
+                        </svg>
+                        <div class="absolute flex flex-col items-center">
+                            <span class="text-6xl font-black text-gray-800">${finalScore}</span>
+                            <span class="text-sm font-bold text-gray-400">POIN</span>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-black ${colorClass} mb-2">${status}</h3>
+                    <p class="text-gray-500 mb-10 italic">Anda berhasil menjawab benar ${score} dari ${quizQuestions.length} soal.</p>
+
+                    <div class="flex space-x-4 w-full max-w-sm">
+                        <button onclick="navigateTo('evaluasi', 0)" class="flex-1 py-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition">Ulangi Kuis</button>
+                        <button onclick="navigateTo('main')" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-lg transition">Menu Utama</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Pastikan fungsi renderContent memanggil renderResult jika view-nya adalah 'result'
+        function renderContent() {
+            if (currentView === 'main') renderMainMenu();
+            else if (currentView === 'learning_menu') renderLearningMenu();
+            else if (currentView === 'materi_menu') renderMateriMenu();
+            else if (currentView === 'instructions' || currentView === 'competency') renderInstructionsAndCompetency();
+            else if (currentView === 'materi_slide') renderMateriSlide(currentSlideIndex);
+            else if (currentView === 'evaluasi') renderQuizQuestion(currentSlideIndex);
+            else if (currentView === 'result') renderResult(); // <--- PASTIKAN BARIS INI ADA
+            else if (currentView === 'info') renderInfo();
+            
+            window.scrollTo(0, 0);
+        }
+
+        renderContent(); // Menjalankan aplikasi pertama kali
+    </script>
+</body>
+</html>
+
+    </script>
+</body>
+</html>
