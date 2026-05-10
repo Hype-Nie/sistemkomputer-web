@@ -122,8 +122,8 @@
         // Daftar Sub-Materi untuk Menu Materi
         const materiMenuOptions = [
             { id: 0, title: "1. Pengertian Sistem Komputer" },
-            { id: 1, title: "2. Perangkat Keras (Hardware)" },
-            { id: 2, title: "3. Perangkat Lunak (Software)" },
+            { id: 1, title: "2. Perangkat Keras (<i>Hardware</i>)" },
+            { id: 2, title: "3. Perangkat Lunak (<i>Software</i>)" },
             { id: 3, title: "4. Interaksi Antar Perangkat" },
             { id: 4, title: "5. Bilangan Biner" },
             { id: 5, title: "6. Rangkuman Materi" }
@@ -134,7 +134,7 @@
             <ol class="list-decimal list-inside space-y-3 text-gray-700 text-lg p-4 bg-blue-50 rounded-lg shadow-inner">
                 <li><span class="font-bold">Menu Utama:</span> Pilih "Modul Pembelajaran" untuk masuk ke Menu Belajar.</li>
                 <li><span class="font-bold">Menu Belajar:</span> Pilih 4 opsi: Petunjuk, Kompetensi Awal, Materi, atau Evaluasi.</li>
-                <li><span class="font-bold">Materi:</span> Anda akan melihat daftar sub-materi. Klik sub-materi, lalu gunakan tombol <span class="text-blue-600">Navigasi</span> (Prev/Next) untuk berpindah.</li>
+                <li><span class="font-bold">Materi:</span> Anda akan melihat daftar sub-materi. Klik sub-materi, lalu gunakan tombol <span class="text-blue-600">Navigasi</span> (<i><b>Selanjutnya</b></i> ) untuk berpindah.</li>
                 <li><span class="font-bold">Evaluasi:</span> Jawab 5 soal pilihan ganda. Koreksi akan langsung muncul.</li>
                 <li><span class="font-bold">Kembali:</span> Gunakan tombol panah di header atau "Menu Belajar" untuk kembali.</li>
             </ol>
@@ -142,10 +142,10 @@
 
         const competencyContent = `
             <h3 class="text-2xl font-bold text-green-700 mb-4">Kompetensi Awal</h3>
-            <p class="mb-4 text-gray-700 text-lg">Setelah menyelesaikan modul ini, Anda diharapkan mampu:</p>
+            <p class="mb-4 text-gray-700 text-lg">Setelah menyelesaikan modul ini, anda diharapkan mampu:</p>
             <ul class="list-disc list-inside space-y-3 text-gray-700 ml-6 text-lg p-4 bg-green-50 rounded-lg shadow-inner">
-                <li>Memahami definisi dan perbedaan antara perangkat keras (Hardware) dan perangkat lunak (Software).</li>
-                <li>Menjelaskan siklus kerja dasar sistem komputer (Input, Proses, Output).</li>
+                <li>Memahami definisi dan perbedaan antara Perangkat Keras (<i>Hardware</i>) dan Perangkat Lunak (<i>Software</i>).</li>
+                <li>Menjelaskan siklus kerja dasar sistem komputer (<i>Input, Process, Output</i>).</li>
                 <li>Mengidentifikasi sistem bilangan yang digunakan komputer (Biner).</li>
                 <li>Menjelaskan peran utama Sistem Operasi.</li>
             </ul>
@@ -160,10 +160,10 @@
                         <img src="gambar/sistem-komputer.jpeg" alt="Diagram Komponen Sistem Komputer:Hardware, Software, Braindware" class="rounded-lg shadow-xl border-4 border-gray-300"/>
                         <p class="text-sm italic text-gray-500 mt-2">Diagram Tiga Komponen Utama Sistem Komputer</p>
                         <div class="text-area">
-                    <p class="text-lg mb-4 text-gray-700">Komputer adalah kata dari bahasa inggris to compute yang artinya menghitung. Komputer memiliki makna sebuah peranti elektronik yang dapat menerima data masukan/perintah, memproses data masukan tersebut, memproduksi keluaran.</p>
+                    <p class="text-lg mb-4 text-gray-700">Komputer adalah kata dari bahasa inggris <i>to compute</i> yang artinya menghitung. Komputer memiliki makna sebuah peranti elektronik yang dapat menerima data masukan/perintah (<i>input</i>), memproses data masukan tersebut (<i>process</i>), memproduksi keluaran (<i>ouyput</i>).</p>
                     <div class="space-y-3 p-4 bg-blue-50 rounded-lg shadow-md">
                         <li class="list-none"><span class="font-bold text-blue-700">Tujuan:</span> Menerima data lalu memproses menjadi peranti keluaran </li>
-                        <li class="list-none"><span class="font-bold text-green-700">Komponen Utama:</span>Sistem komputer membutuhkan perangkat keras (hardware) dan perangkat lunak (software) untuk berfungsi dan brandware sebagai pengguna.</li>
+                        <li class="list-none"><span class="font-bold text-green-700">Komponen Utama:</span>Sistem komputer membutuhkan perangkat keras (<i>hardware</i>) dan perangkat lunak (<i>software</i>) untuk berfungsi dan <i>brandware</i> sebagai pengguna.</li>
                     </div>
                     <div class="video-container">
                         <video controls autoplay muted playsinline>
@@ -177,23 +177,23 @@
                 `
             },
             {
-                title: "2. Perangkat Keras (Hardware)",
+                title: "2. Perangkat Keras (<i>Hardware</i>)",
                 content: `
-                    <p class="text-lg mb-4 text-gray-700">Perangkat Keras adalah perangkat komputer yang memiliki wujud fisik yang nyata, dapat disentuh atau dipindahkan, .</p>
+                    <p class="text-lg mb-4 text-gray-700">Perangkat keras adalah perangkat komputer yang memiliki wujud fisik yang nyata, dapat disentuh atau dipindahkan, .</p>
                     <div class="space-y-3 p-4 bg-white rounded-lg shadow-md">
-                        <li class="list-none"><span class="font-bold text-red-600">Perangkat Masukan (Input Devices):</span> Mengirim data ke komputer untuk di olah seperti Mouse, Keyboard, Scanner, Joystick, Microphone, dan Barcode Reader.
+                        <li class="list-none"><span class="font-bold text-red-600">Perangkat Masukan (<i>Input Devices</i>):</span> Mengirim data ke komputer untuk di olah seperti <i>Mouse, Keyboard, Scanner, Joystick, Microphone,</i> dan <i>Barcode Reader</i>.
                             <img src="gambar/perangkat-inputan.jpg" alt="Perangkat Inputan" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
                             <p class="text-sm italic text-gray-500 mt-2 text-center">Perangkat Keras Inputan</p>
                             </li>
-                        <li class="list-none"><span class="font-bold text-blue-600">Pemroses (Processing Devices):</span> Data atau perintah yang diterima dari peranti masukan selanjutnya akan di proses oleh komputer seperti CPU, RAM, ROM.
+                        <li class="list-none"><span class="font-bold text-blue-600">Pemroses (<i>Processing Devices</i>):</span> Data atau perintah yang diterima dari peranti masukan selanjutnya akan di proses oleh komputer seperti CPU, RAM, ROM.
                             <img src="gambar/pemroses.jpg" alt="Pemroses" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
                             <p class="text-sm italic text-gray-500 mt-2 text-center">Central Processing Unit dan RAM</p>
                         </li>
-                        <li class="list-none"><span class="font-bold text-green-600">Keluaran (Output Devices):</span> Adalah peralatan yang menyajikan informasi dari komputer yang bisa berupa tampilan layar Monitor, Printer (Gambar/dokumen tercetak), serta suara yang di hasilkan Speaker.
+                        <li class="list-none"><span class="font-bold text-green-600">Keluaran (<i>Output Devices</i>):</span> Adalah peralatan yang menyajikan informasi dari komputer yang bisa berupa tampilan layar Monitor, <i>Printer</i> (Gambar/dokumen tercetak), serta suara yang di hasilkan <i>Speaker</i>.
                             <img src="gambar/parangkat-output.jpg" alt="Perangkat Output" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
                             <p class="text-sm italic text-gray-500 mt-2 text-center">Perangkat Keras Output</p>
                         </li>
-                        <li class="list-none"><span class="font-bold text-yellow-600">Penyimpanan Sekunder:</span> Peranti penyimpanan sekunder adalah tempat penyimpanan data elektronik yang bersifat permanen, diantaranya: Hardisk drive, Solid State drive, Flash drive, Compact Disc, Memory Card, dan Cloud Storage.
+                        <li class="list-none"><span class="font-bold text-yellow-600">Penyimpanan Sekunder:</span> Peranti penyimpanan sekunder adalah tempat penyimpanan data elektronik yang bersifat permanen, diantaranya: <i>Hardisk drive, Solid State drive, Flash drive, Compact Disc, Memory Card,</i> dan <i>Cloud Storage</i>.
                             <img src="gambar/penyimpanansekunder.jpg" alt="Penyimpanan Sekunder" class="w-full max-w-md mx-auto h-auto rounded-lg shadow-xl border-4 border-gray-50 mt-3"/>
                             <p class="text-sm italic text-gray-500 mt-2 text-center">Perangkat Penyimpanan Sekunder</p>
                         </li>
@@ -201,9 +201,9 @@
                 `
             },
             {
-                title: "3. Perangkat Lunak (Software)",
+                title: "3. Perangkat Lunak (<i>Software</i>)",
                 content: `
-                    <p class="text-lg mb-4 text-gray-700">Perangkat Lunak adalah kumpulan instruksi dan data yang dikerjakan oleh komputer. Perangkat lunak merupakan penghubung antara pengguna dan komputer sebagai perangkat keras.</p>
+                    <p class="text-lg mb-4 text-gray-700">Perangkat lunak adalah kumpulan instruksi dan data yang dikerjakan oleh komputer. Perangkat lunak merupakan penghubung antara pengguna dan komputer sebagai perangkat keras.</p>
                     <div class="space-y-3 p-4 bg-white rounded-lg shadow-md">
                         <li class="list-none"><span class="font-bold text-blue-700">Sistem Operasi (OS):</span> Perangkat lunak utama yang mengelola sumber daya. Contoh: Windows, macOS. berfungsi manajemen proses, manajemen sumber daya, dan manajemen data.</li>
                         <li class="list-none"><span class="font-bold text-green-700">Program Aplikasi:</span> Program yang dirancang dan siap pakai untuk melakukan pekerjaan penggunanya . Contoh: Browser, Microsoft Office (word, excel, powerpoint), Mobile Application (Sosial media dan Commerce Apps).</li>
@@ -220,13 +220,13 @@
             {
                 title: "4. Interaksi Antar Perangkat",
                 content: `
-                    <p class="text-lg mb-4 text-gray-700">Sistem komputer adalah hubungan kerja sama antara perangkat keras, perangkat lunak, dan pengguna (brainware) agar komputer dapat berfungsi dengan baik.</p>
+                    <p class="text-lg mb-4 text-gray-700">Sistem komputer adalah hubungan kerja sama antara perangkat keras, perangkat lunak, dan pengguna (<i>brainware</i>) agar komputer dapat berfungsi dengan baik.</p>
                     <ol class="list-decimal list-inside space-y-2 ml-4 p-4 bg-yellow-50 rounded-lg shadow-md">
-                        <li><span class="font-bold text-purple-700">Input:</span> Data masuk melalui Keyboard.</li>
-                        <li><span class="font-bold text-purple-700">Proses:</span> CPU memprosesnya, dan RAM menampung data sementara.</li>
-                        <li><span class="font-bold text-purple-700">Output:</span> Hasil ditampilkan di Monitor.</li>
+                        <li><span class="font-bold text-purple-700"><i>Input</i>:</span> Data masuk melalui Keyboard.</li>
+                        <li><span class="font-bold text-purple-700"><i>Process</i>:</span> CPU memprosesnya, dan RAM menampung data sementara.</li>
+                        <li><span class="font-bold text-purple-700"><i>Output</i>:</span> Hasil ditampilkan di monitor.</li>
                     </ol>
-                    <p class=text-lg mb-4 text-black-600">Selain interaksi internal dalam satu unit komputer, ada pula interaksi antarperangkat eksternal. Contohnya, komputer dapat terhubung dengan smartphone  melalui  kabel  USB  atau  Bluetooth  untuk  transfer  data, menggunakan Wi-Fi untuk mengakses internet, atau terkoneksi dengan printer agar dapat mencetak dokumen.</p>
+                    <p class=text-lg mb-4 text-black-600">Selain interaksi <i>internal</i> dalam satu unit komputer, ada pula interaksi antar perangkat <i>eksternal</i>. Contohnya, komputer dapat terhubung dengan <i>smartphone</i>  melalui  kabel  USB  atau  <i>Bluetooth</i>  untuk  memindahkan  data, menggunakan Wi-Fi untuk mengakses <i>internet</i>, atau terkoneksi dengan <i>printer</i> agar dapat mencetak dokumen.</p>
                     <p class="mt-4 italic text-sm text-gray-600">Interaksi ini dimediasi oleh OS.</p>
                 `
             },
@@ -247,9 +247,9 @@
                     <div class="text-center p-6 bg-blue-100 rounded-xl shadow-lg border-2 border-blue-300">
                         <h3 class="text-2xl font-bold text-blue-800 mb-4">Poin Kunci</h3>
                         <div class="grid grid-cols-1 gap-4 text-base font-semibold">
-                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-yellow-500">Sistem Komputer: Interaksi Hardware, Software, dan Brainware.</div>
-                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-red-500">Hardware: Komponen Fisik (CPU, RAM, Monitor).</div>
-                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-green-500">Software: Program/Logika (OS, Aplikasi).</div>
+                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-yellow-500">Sistem Komputer: Interaksi <i>Hardware, Software,</i> dan <i>Brainware</i>.</div>
+                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-red-500"><i>Hardware</i>: Komponen Fisik (CPU, RAM, Monitor).</div>
+                            <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-green-500"><i>Software</i>: Program/Logika (OS, Aplikasi).</div>
                             <div class="p-3 bg-white rounded-lg shadow-md border-l-4 border-purple-500">Biner: Bahasa Komputer Dasar (0 dan 1).</div>
                         </div>
                         <p class="text-xl mt-6 text-blue-800 font-bold">Modul Dasar Selesai. Silakan lanjut ke Evaluasi!</p>
@@ -261,17 +261,17 @@
         const quizQuestions = [
             {
                 question: "1. Komponen fisik dari sistem komputer yang dapat disentuh disebut...",
-                options: ["Software", "Firmware", "Hardware", "Operating System"],
+                options: ["<i>Software</i>", "<i>Brainware</i>", "<i>Hardware</i>", "<i>Operating System</i>"],
                 answer: 2
             },
             {
-                question: "2. Fungsi utama dari CPU (Central Processing Unit) berada pada tahap...",
-                options: ["Input", "Process", "Output", "Storage"],
+                question: "2. Fungsi utama dari CPU (<i>Central Processing Unit</i>) berada pada tahap...",
+                options: ["<i>Input</i>", "<i>Process</i>", "<i>Output</i>", "<i>Storage</i>"],
                 answer: 1
             },
             {
-                question: "3. Perangkat lunak yang bertindak sebagai jembatan antara hardware dan aplikasi adalah...",
-                options: ["Browser", "Driver", "Sistem Operasi", "Antivirus"],
+                question: "3. Perangkat lunak yang bertindak sebagai jembatan antara <i>hardware</i> dan aplikasi adalah...",
+                options: ["<i>Browser</i>", "<i>Driver</i>", "Sistem Operasi", "Antivirus"],
                 answer: 2
             },
             {
